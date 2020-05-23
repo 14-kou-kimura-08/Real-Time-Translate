@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset=utf-8 />
+      <meta http-equiv="Pragma" content="no-cache">
+      <meta http-equiv="Cache-Control" content="no-cache">
+
+      <title>Real time translate</title>
+      <meta name="description"        content="Web Speech API で音声認識した結果を自動翻訳し表示するWebページです。BlackHoleと一緒に利用することで日本語が話せないスタッフとのミーティングなどで利用できます。">
+      <meta property="og:title"       content="Real time translate" />
+      <meta property="og:description" content="Web Speech API で音声認識した結果を自動翻訳し表示するWebページです。BlackHoleと一緒に利用することで日本語が話せないスタッフとのミーティングなどで利用できます。" />
+      <meta name="twitter:card"       content="summary">
+  </head>
+
+  <body>
+      <div class="main">
+          <div id="status" class="error">起動失敗</div>
+
+          <div id="video_wrapper" class="video_wrapper">
+              <video id="result_video" class="video_area" autoplay></video>
+              <div id="bg_green" class="bg_green hidden"></div>
+              <div id="text_overlay_wrapper" class="text_overlay_wrapper full">
+                  <div id="result_text" class="text_area">音声認識が始まるとここに文字が表示されます。マイクとカメラを有効にしてください。</div>
+              </div>
+          </div>
+
+          <div id="help_on_error" class="help_on_error">
+              カメラやマイクが機能しないとき → ページの再読み込みや，ブラウザの設定を確認してください: <a
+              href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
+              target="_blank">Chrome ヘルプ</a>
+          </div>
+      </div>
+      <script>
+          // ブラウザ判定
+          // 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
+          var userAgent = window.navigator.userAgent.toLowerCase();
+          var isChrome = 0;
+
+          if (userAgent.indexOf('msie') != -1 || userAgent.indexOf('trident') != -1) {
+              // IE
+          } else if (userAgent.indexOf('edge') != -1) {
+              // Edge
+          } else if (userAgent.indexOf('chrome') != -1) {
+              // Chrome
+              isChrome = 1;
+          } else if (userAgent.indexOf('safari') != -1) {
+              // Safari
+          } else if (userAgent.indexOf('firefox') != -1) {
+              // Firefox
+          } else if (userAgent.indexOf('opera') != -1) {
+              // Opera
+          } else {
+              // その他
+          }
+
+          if (!isChrome) {
+              alert('Google Chromeでアクセスしてください')
+              document.getElementById('status').innerHTML = "Google Chromeでアクセスしてください";
+              document.getElementById('status').className = "error";
+              exit;
+          }
+
+
+          // 音声認識
+          // 参考: https://jellyware.jp/kurage/iot/webspeechapi.html
+          var flag_speech = 0;
+          var recognition;
+          var lang = 'ja-JP';
+
+          function vr_function() {
+              window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+              recognition = new webkitSpeechRecognition();
+              recognition.lang = lang;
+              recognition.interimResults = true;
+              recognition.continuous = true;
+
+              recognition.onsoundstart = function () {
+                  document.getElementById('status').innerHTML = "認識中...";
+                  document.getElementById('status').className = "processing";
+              };
+              recognition.onnomatch = function () {
+                  document.getElementById('status').innerHTML = "音声を認識できませんでした";
+                  document.getElementById('status').className = "error";
+              };
+              recognition.onerror = function () {
+                  document.getElementById('status').innerHTML = "エラー";
+                  document.getElementById('status').className = "error";
+                  if (flag_speech == 0)
+                      vr_function();
+              };
+              recognition.onsoundend = function () {
+                  document.getElementById('status').innerHTML = "停止中";
+                  document.getElementById('status').className = "error";
+                  vr_function();
+              };
+
+              recognition.onresult = function (event) {
+                  var results = event.results;
+                  console.log(results);
+                  for (var i = event.resultIndex; i < results.length; i++) {
+                    console.log(222);
+                      if (results[i].isFinal) {
+                          var result_transcript = results[i][0].transcript
+                          if (lang == 'ja-JP') {
+                              result_transcript += '。';
+                          }
+                          console.log(result_transcript);
+                          document.getElementById('result_text').innerHTML = result_transcript;
+                          document.getElementById('result_log').insertAdjacentHTML('beforeend', result_transcript+'\n');
+                          // textAreaHeightSet(document.getElementById('result_log'));
+                          vr_function();
+                          flag_speech = 0;
+                      } else {
+                          document.getElementById('result_text').innerHTML = results[i][0].transcript;
+                          flag_speech = 1;
+                      }
+                  }
+              }
+
+              flag_speech = 0;
+              document.getElementById('status').innerHTML = "待機中";
+              document.getElementById('status').className = "ready";
+              recognition.start();
+          }
+
+          window.onload = () => {
+              vr_function();
+          };
+      </script>
+  </body>
+
+</html>
