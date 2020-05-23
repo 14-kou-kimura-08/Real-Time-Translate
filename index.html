@@ -15,20 +15,19 @@
 
   <body>
       <div class="main">
-          <div id="status" class="error">起動失敗</div>
+          <div id="status" class="error">startup failure</div>
+          <div id="help_on_error" class="help_on_error">
+              When the microphone does not work → Please reload the page or check your browser settings : <a
+              href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
+              target="_blank">Chrome Help</a>
+          </div>
 
           <div id="video_wrapper" class="video_wrapper">
               <video id="result_video" class="video_area" autoplay></video>
               <div id="bg_green" class="bg_green hidden"></div>
               <div id="text_overlay_wrapper" class="text_overlay_wrapper full">
-                  <div id="result_text" class="text_area">音声認識が始まるとここに文字が表示されます。マイクとカメラを有効にしてください。</div>
+                  <div id="result_text" class="text_area">You will see the conversation here. Activate the microphone.</div>
               </div>
-          </div>
-
-          <div id="help_on_error" class="help_on_error">
-              カメラやマイクが機能しないとき → ページの再読み込みや，ブラウザの設定を確認してください: <a
-              href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
-              target="_blank">Chrome ヘルプ</a>
           </div>
       </div>
       <script>
@@ -55,12 +54,11 @@
           }
 
           if (!isChrome) {
-              alert('Google Chromeでアクセスしてください')
-              document.getElementById('status').innerHTML = "Google Chromeでアクセスしてください";
+              alert('Go to it on Google Chrome')
+              document.getElementById('status').innerHTML = "Go to it on Google Chrome";
               document.getElementById('status').className = "error";
               exit;
           }
-
 
           // 音声認識
           // 参考: https://jellyware.jp/kurage/iot/webspeechapi.html
@@ -74,52 +72,60 @@
               recognition.lang = lang;
               recognition.interimResults = true;
               recognition.continuous = true;
+              const p = document.createElement("p");
+              p.id = "target";
 
               recognition.onsoundstart = function () {
-                  document.getElementById('status').innerHTML = "認識中...";
+                  document.getElementById('status').innerHTML = "We have voice recognition.";
                   document.getElementById('status').className = "processing";
+
+                  document.getElementById('result_text').appendChild(p);
               };
               recognition.onnomatch = function () {
-                  document.getElementById('status').innerHTML = "音声を認識できませんでした";
+                  document.getElementById('status').innerHTML = "We couldn't recognize your voice.";
                   document.getElementById('status').className = "error";
               };
               recognition.onerror = function () {
-                  document.getElementById('status').innerHTML = "エラー";
+                  document.getElementById('status').innerHTML = "error";
                   document.getElementById('status').className = "error";
                   if (flag_speech == 0)
                       vr_function();
               };
               recognition.onsoundend = function () {
-                  document.getElementById('status').innerHTML = "停止中";
+                  document.getElementById('status').innerHTML = "Voice recognition has been suspended.";
                   document.getElementById('status').className = "error";
                   vr_function();
               };
 
               recognition.onresult = function (event) {
                   var results = event.results;
-                  console.log(results);
                   for (var i = event.resultIndex; i < results.length; i++) {
-                    console.log(222);
                       if (results[i].isFinal) {
                           var result_transcript = results[i][0].transcript
-                          if (lang == 'ja-JP') {
-                              result_transcript += '。';
-                          }
-                          console.log(result_transcript);
-                          document.getElementById('result_text').innerHTML = result_transcript;
-                          document.getElementById('result_log').insertAdjacentHTML('beforeend', result_transcript+'\n');
-                          // textAreaHeightSet(document.getElementById('result_log'));
+                          var request = "https://script.google.com/macros/s/AKfycbzH5kPvN6nG0XnzfPJhbrxPlBhnb0vOXTdob0WKygLyYX7N2Fg/exec?text=" + result_transcript + "&source=ja&target=en"
+
+                          fetch(request)
+                            .then((response) => {
+                              if(response.ok) {
+                                return response.text();
+                              } else {
+                                throw new Error();
+                              }
+                            })
+                            .then((text) => p.innerHTML = text)
+                            .catch((error) => console.log(error));
                           vr_function();
                           flag_speech = 0;
+                          p.removeAttribute('id');
                       } else {
-                          document.getElementById('result_text').innerHTML = results[i][0].transcript;
+                          p.innerHTML = results[i][0].transcript;
                           flag_speech = 1;
                       }
                   }
               }
 
               flag_speech = 0;
-              document.getElementById('status').innerHTML = "待機中";
+              document.getElementById('status').innerHTML = "I'm waiting for the conversation to begin.";
               document.getElementById('status').className = "ready";
               recognition.start();
           }
