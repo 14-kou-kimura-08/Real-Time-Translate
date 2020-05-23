@@ -11,7 +11,8 @@
       <meta property="og:title"       content="Real time translate" />
       <meta property="og:description" content="Web Speech API で音声認識した結果を自動翻訳し表示するWebページです。BlackHoleと一緒に利用することで日本語が話せないスタッフとのミーティングなどで利用できます。" />
       <meta name="twitter:card"       content="summary">
-      <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      <link rel="stylesheet" href="style.css" />
+      <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </head>
 
   <body>
@@ -24,12 +25,8 @@
           </div>
           <div id="google_translate_element"></div>
 
-          <div id="video_wrapper" class="video_wrapper">
-              <video id="result_video" class="video_area" autoplay></video>
-              <div id="bg_green" class="bg_green hidden"></div>
-              <div id="text_overlay_wrapper" class="text_overlay_wrapper full">
-                  <div id="result_text" class="text_area">ここに会話が表示されます。マイクの利用を許可してください。</div>
-              </div>
+          <div id="result_text" class="text_area">
+            <p class="description">ここに会話が表示されます。マイクの利用を許可してください。</p>
           </div>
       </div>
       <script>
@@ -101,6 +98,7 @@
 
               recognition.onresult = function (event) {
                   var results = event.results;
+                  document.querySelector('.description').style = 'display: none;';
                   for (var i = event.resultIndex; i < results.length; i++) {
                       if (results[i].isFinal) {
                           var result_transcript = results[i][0].transcript

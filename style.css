@@ -1,0 +1,23 @@
+html, body {
+	background-color: #ffffff;
+	font-family: "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+	color: #5e5e5e;
+}
+
+a {
+	color: #5e5e5e;
+}
+
+.main {
+	max-width: 800px;
+	height: auto;
+	margin: 30px auto;
+}
+
+.error {
+	color: #ff0000;
+}
+
+.text_area {
+	margin-top: 50px;
+}
