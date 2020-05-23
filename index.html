@@ -22,6 +22,7 @@
               href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
               target="_blank">Chrome Help</a>
           </div>
+          <div id="google_translate_element"></div>
 
           <div id="video_wrapper" class="video_wrapper">
               <video id="result_video" class="video_area" autoplay></video>
@@ -30,7 +31,6 @@
                   <div id="result_text" class="text_area">ここに会話が表示されます。マイクの利用を許可してください。</div>
               </div>
           </div>
-          <div id="google_translate_element"></div>
       </div>
       <script>
           // ブラウザ判定
@@ -128,11 +128,9 @@
           {
               new google.translate.TranslateElement(
               {
-                  pageLanguage: 'ja',               // Webサイトの言語
-                  includedLanguages: 'en', // 翻訳する言語
-                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE, // 表示モード
-                  // autoDisplay: true,       // 翻訳バナーを自動的に表示するか
-                  // multilanguagePage: true, // コンテンツに複数の言語が含まれているか
+                  pageLanguage: 'ja',
+                  includedLanguages: 'en,my',
+                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
               }, 'google_translate_element' );
           };
       </script>
