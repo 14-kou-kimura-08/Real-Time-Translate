@@ -25,15 +25,15 @@
         </div>
       </div>
       <div class="main">
-          <div id="status" class="error">起動に失敗しました</div>
+          <div id="status" class="error">Startup failed</div>
           <div id="help_on_error" class="help_on_error">
-              もしマイクが起動しない場合は、リロードするかHELPページをみてください : <a
+              If the mic doesn't work, reload it or visit HELP page : <a
               href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
               target="_blank">Chrome Help</a>
           </div>
 
           <div id="result_text" class="text_area">
-            <p class="description">ここに会話が表示されます。マイクの利用を許可してください。</p>
+            <p class="description">The conversation is displayed here. Please allow the use of the microphone.</p>
           </div>
       </div>
       <script>
@@ -60,8 +60,8 @@
           }
 
           if (!isChrome) {
-              alert('Google Chromeでアクセスしてください')
-              document.getElementById('status').innerHTML = "Google Chromeでアクセスしてください";
+              alert('Go to it on Google Chrome')
+              document.getElementById('status').innerHTML = "Go to it on Google Chrome";
               document.getElementById('status').className = "error";
               exit;
           }
@@ -82,23 +82,23 @@
               p.id = "target";
 
               recognition.onsoundstart = function () {
-                  document.getElementById('status').innerHTML = "音声認識中";
+                  document.getElementById('status').innerHTML = "Speech recognition";
                   document.getElementById('status').className = "processing";
 
                   document.getElementById('result_text').appendChild(p);
               };
               recognition.onnomatch = function () {
-                  document.getElementById('status').innerHTML = "音声を認識できません";
+                  document.getElementById('status').innerHTML = "I can't recognize your voice";
                   document.getElementById('status').className = "error";
               };
               recognition.onerror = function () {
-                  document.getElementById('status').innerHTML = "エラー";
+                  document.getElementById('status').innerHTML = "Error";
                   document.getElementById('status').className = "error";
                   if (flag_speech == 0)
                       vr_function();
               };
               recognition.onsoundend = function () {
-                  document.getElementById('status').innerHTML = "音声認識が停止しました";
+                  document.getElementById('status').innerHTML = "Voice recognition has stopped.";
                   document.getElementById('status').className = "error";
                   vr_function();
               };
@@ -120,7 +120,7 @@
               }
 
               flag_speech = 0;
-              document.getElementById('status').innerHTML = "会話が始まるのを待っています。";
+              document.getElementById('status').innerHTML = "I'm waiting for the conversation to start.";
               document.getElementById('status').className = "ready";
               recognition.start();
           }
@@ -273,7 +273,6 @@
           {
               new google.translate.TranslateElement(
               {
-                  pageLanguage: 'en',
                   layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                   autoDisplay: false
               }, 'google_translate_element' );
