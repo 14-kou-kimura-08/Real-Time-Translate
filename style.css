@@ -13,7 +13,7 @@ a {
 
 .header {
 	width: 100%;
-	height: 60px;
+	height: 80px;
 	background-color: #1a73e8;
 }
 
@@ -26,27 +26,35 @@ a {
 
 .language_selects {
 	display: block;
-  width: 200px;
-  margin: 10px 5px;
+	height: 80px;
+  color: #333;
+  word-break: normal;
+	margin-right: 10px;
+}
+
+.language_selects_label {
+	font-size: 12px;
+	line-height: 10px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.language_selects_options {
+  width: 180px;
+	float: left;
+  margin-right: 5px;
   font-size: 16px;
-  line-height: 60px;
+  height: 35px;
   color: #333;
   background-color: #ffffff;
   border: 1px solid #cccccc;
   word-break: normal;
 }
 
-.arrow {
-	margin: 0px 10px;
-	color: #ffffff;
-	font-size: 30px;
-	line-height: 60px;
-}
-
 #google_translate_element {
 	display: block;
   width: auto;
-  margin: 10px 5px;
+  margin: 10px 0px;
   color: #333;
   background-color: #ffffff;
   word-break: normal;
@@ -55,12 +63,12 @@ a {
 
 .goog-te-gadget {
 	width: 200px;
-	height: 40px;
+	height: 35px;
 }
 
 .goog-te-gadget-simple {
 	width: 200px;
-	height: 35px;
+	height: 30px;
 	padding: 0px 5px;
 	border-radius: 5px;
 }
@@ -71,7 +79,7 @@ a {
 
 .goog-te-gadget-simple > span {
 	font-size: 16px;
-	line-height: 35px;
+	line-height: 30px;
 }
 
 .main {

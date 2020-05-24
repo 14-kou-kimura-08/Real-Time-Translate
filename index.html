@@ -18,10 +18,16 @@
   <body>
       <div class="header">
         <div class="header_content">
-          <select class="language_selects" id="select_language" onchange="updateCountry()"></select>
-          <select class="language_selects" id="select_dialect" class="select_dialect"></select>
-          <span class="arrow">→</span>
-          <div id="google_translate_element"></div>
+          <div class="language_selects">
+            <p class="language_selects_label">Spoken Language</p>
+            <select class="language_selects_options" id="select_language" onchange="updateCountry()"></select>
+            <select class="language_selects_options" id="select_dialect" class="select_dialect"></select>
+          </div>
+
+          <div class="language_selects">
+            <p class="language_selects_label">Translation language</p>
+            <div id="google_translate_element"></div>
+          </div>
         </div>
       </div>
       <div class="main">
@@ -126,7 +132,7 @@
           }
 
           window.onload = () => {
-              document.querySelector('.goog-te-gadget-simple').children[1].innerHTML = '<a aria-haspopup="true" class="goog-te-menu-value" href="javascript:void(0)"><span>Select Language</span><span aria-hidden="true" style="float: right;">▼</span></a>'
+              document.querySelector('.goog-te-gadget-simple').children[1].innerHTML = '<a aria-haspopup="true" class="goog-te-menu-value" href="javascript:void(0)"><span>Select language</span><span aria-hidden="true" style="float: right;">▼</span></a>'
               vr_function();
           };
 
