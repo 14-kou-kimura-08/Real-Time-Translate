@@ -16,6 +16,14 @@
   </head>
 
   <body>
+      <div class="header">
+        <div class="header_content">
+          <select class="language_selects" id="select_language" onchange="updateCountry()"></select>
+          <select class="language_selects" id="select_dialect" class="select_dialect"></select>
+          <span class="arrow">→</span>
+          <div id="google_translate_element"></div>
+        </div>
+      </div>
       <div class="main">
           <div id="status" class="error">起動に失敗しました</div>
           <div id="help_on_error" class="help_on_error">
@@ -23,9 +31,6 @@
               href="https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=ja&oco=1"
               target="_blank">Chrome Help</a>
           </div>
-          <select id="select_language" onchange="updateCountry()"></select>
-          <select id="select_dialect" class="select_dialect"></select>
-          <div id="google_translate_element"></div>
 
           <div id="result_text" class="text_area">
             <p class="description">ここに会話が表示されます。マイクの利用を許可してください。</p>
@@ -121,6 +126,7 @@
           }
 
           window.onload = () => {
+              document.querySelector('.goog-te-gadget-simple').children[1].innerHTML = '<a aria-haspopup="true" class="goog-te-menu-value" href="javascript:void(0)"><span>Select Language</span><span aria-hidden="true" style="float: right;">▼</span></a>'
               vr_function();
           };
 
@@ -246,7 +252,7 @@
               for (var i = 1; i < list.length; i++) {
                   select_dialect.options.add(new Option(list[i][1], list[i][0]));
               }
-              select_dialect.style.visibility = list[1].length == 1 ? 'hidden' : 'visible';
+              select_dialect.style.display = list[1].length == 1 ? 'none' : 'block';
               updateLanguage()
           }
 

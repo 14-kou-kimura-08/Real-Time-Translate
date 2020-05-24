@@ -1,11 +1,77 @@
 html, body {
+	margin: 0;
+	padding: 0;
 	background-color: #ffffff;
 	font-family: "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
 	color: #5e5e5e;
+	box-sizing: content-box;
 }
 
 a {
 	color: #5e5e5e;
+}
+
+.header {
+	width: 100%;
+	height: 60px;
+	background-color: #1a73e8;
+}
+
+.header_content {
+	max-width: 800px;
+	margin: 0px auto;
+	display: flex;
+	justify-content:  center;
+}
+
+.language_selects {
+	display: block;
+  width: 200px;
+  margin: 10px 5px;
+  font-size: 16px;
+  line-height: 60px;
+  color: #333;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  word-break: normal;
+}
+
+.arrow {
+	margin: 0px 10px;
+	color: #ffffff;
+	font-size: 30px;
+	line-height: 60px;
+}
+
+#google_translate_element {
+	display: block;
+  width: auto;
+  margin: 10px 5px;
+  color: #333;
+  background-color: #ffffff;
+  word-break: normal;
+	border-radius: 5px;
+}
+
+.goog-te-gadget {
+	width: 200px;
+	height: 40px;
+}
+
+.goog-te-gadget-simple {
+	width: 200px;
+	height: 35px;
+	padding: 0px 5px;
+	border-radius: 5px;
+}
+
+.goog-te-gadget-simple > img {
+	display: none;
+}
+
+.goog-te-gadget-simple > span {
+	font-size: 16px;
+	line-height: 35px;
 }
 
 .main {
@@ -19,5 +85,5 @@ a {
 }
 
 .text_area {
-	margin-top: 50px;
+	margin: 50px 0px;
 }
